@@ -1,0 +1,46 @@
+a, a:hover {
+    color: #4E5166;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: black;
+    border-bottom: solid 3px ;
+  }
+
+  a:active, a:focus {
+    color: black;
+    border-bottom: solid 4px ;
+  }
+
+
+.gpm-banner{
+    width:100%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    border-bottom: 2px solid black;
+    padding: 20px 0px;
+    background-color: #FFD7D7;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+nav {
+    display: flex;
+    justify-content: center;
+}
+
+ul {
+    list-style-type: none;
+    align-items: center;
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    padding: 10px;
+}

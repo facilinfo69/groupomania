@@ -3,7 +3,7 @@ const express = require('express');
 //importer mongoose pour faciliter l'accès à la base de données
 const mongoose = require('mongoose');
 // importer le routeur pour les sauces
-// const saucesRoutes = require('./routes/sauce');
+const postRoutes = require('./routes/post');
 // importer le routeur pour la connexion/inscription des utilisateurs
 const userRoutes = require('./routes/user');
 // permet l'accès au path du serveur
@@ -26,7 +26,7 @@ mongoose.connect(`mongodb+srv://${process.env._USER}:${process.env._PASSWORD}@gr
 
 const app = express();
 
-app.use(helmet());
+// app.use(helmet());
 
 //réponse du serveur
 //recupere le corps JSON
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 
 // enregister les routes
 app.use('/api/auth', userRoutes);
-// app.use('/api/sauces', saucesRoutes);
+app.use('/api/post', postRoutes);
 
 //gérer la ressource images de manière statique 
 app.use('/images', express.static(path.join(__dirname, 'images')));

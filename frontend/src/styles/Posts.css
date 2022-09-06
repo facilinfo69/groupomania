@@ -1,0 +1,52 @@
+
+ 
+  a:hover.lienposts {
+    text-decoration: none;
+    border-bottom: none;
+    transform: scale(1.1);
+  }
+
+
+.gpm-posts{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFD7D7;
+}
+.gpm-card-post{
+    display: flex;
+    flex-direction: column;
+    background-color:  #4E5166;
+    width: 70%;
+    margin-top:10px;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.gpm-card{
+    
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.gpm-card.titre{
+    font-weight: bold;
+}
+
+.gpm-card.contenu{
+    display: flex;
+    flex-direction: column;
+}
+
+.gpm-card.auteur{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.image{
+    width:70%;
+    max-width: 400px;
+}

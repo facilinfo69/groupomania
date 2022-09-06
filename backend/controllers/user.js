@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
 exports.signup = (req, res, next) => {
     console.log("signup");
     //verifier force du mot de passe
-    var schemaPassword = new passwordValidator();
+     var schemaPassword = new passwordValidator();
     //propriétés du mot de passe
     schemaPassword
         .is().min(8)                                    // Minimum 8 caractères
@@ -20,17 +20,20 @@ exports.signup = (req, res, next) => {
         .has().uppercase()                              // doit avoir une Majuscule
         .has().lowercase()                              // doit avoir minuscule
         .has().digits(2)                                // au moins 2 chiffres
-        .has().not().spaces()                           // pas d'espace
+         .has().not().spaces()                           // pas d'espace
     //on peut ajouter une blacklist de mot de passe
     //.is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
-    if (schemaPassword.validate(req.body.password)) {
+     if (schemaPassword.validate(req.body.password)) {
         //hachage du mot de passe
         bcrypt.hash(req.body.password, 10)
             .then(hash => {
+                console.log('hash');
                 //ajour de l'utilisateur dans la base de données
                 const user = new User({
+                    username: req.body.username,
                     email: req.body.email,
-                    password: hash
+                    password: hash,
+                    admin: false
                 });
                 user.save()
                     // réponse attendue : { message: string }
@@ -38,10 +41,15 @@ exports.signup = (req, res, next) => {
                     .catch(error => res.status(400).json({ error }));
             })
             .catch(error => res.status(500).json({ error }));
+            
 
     } else {
-        return res.status(401).json({ message: 'Mot de passe non valide !' });
+        return res.status(401).json({ message: 'mot de passe non valide!' });
     }
+        
+   
+        
+        
 };
 
 
@@ -58,7 +66,7 @@ exports.signup = (req, res, next) => {
  *
  */
 exports.login = (req, res, next) => {
-    console.log("login");
+    console.log("login test");
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
@@ -78,7 +86,7 @@ exports.login = (req, res, next) => {
                         token: jwt.sign(
                             { userId: user._id },
                             'RANDOM_TOKEN_SECRET',
-                            { expiresIn: '30min' }
+                            { expiresIn: '24h' }
                         )
                     });
                 })
