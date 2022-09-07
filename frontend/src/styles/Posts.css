@@ -1,38 +1,33 @@
-
- 
-  a:hover.lienposts {
-    text-decoration: none;
-    border-bottom: none;
-    transform: scale(1.1);
-  }
-
-
 .gpm-posts{
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #FFD7D7;
+    background-color: #4E5166;
 }
 .gpm-card-post{
     display: flex;
     flex-direction: column;
-    background-color:  #4E5166;
-    width: 70%;
-    margin-top:10px;
-    border-radius: 20px;
-    padding: 10px;
+    width: 470px;
+    margin-top:15px;
+    border-radius: 10px;
+    border: solid 1px #4E5166;
+    background-color: #fff;
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.8);
 }
 
 .gpm-card{
-    
-    padding: 15px;
+    font-family: 'Lato', sans-serif;
     background-color: white;
-    border-radius: 10px;
-    margin: 10px;
+
 }
 
 .gpm-card.titre{
     font-weight: bold;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    height:50px;
+
 }
 
 .gpm-card.contenu{
@@ -40,13 +35,30 @@
     flex-direction: column;
 }
 
+.contenuarea {
+    
+    font-size: 15px;
+    padding-left: 10px;
+    overflow: auto;
+    font-family: 'Lato', sans-serif;
+    
+}
+
+
+pre.contenuarea {
+    margin:Opx;
+}
+
 .gpm-card.auteur{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin:5px;
 }
 
 .image{
-    width:70%;
-    max-width: 400px;
+    width: 100%;
+   max-height: 600px;
+    object-fit:cover;
+    object-position:center;
 }

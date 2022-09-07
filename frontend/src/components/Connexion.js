@@ -1,4 +1,5 @@
 import '../styles/Connexion.css'
+import logo from '../assets/logo-noir.png'
 import Signup from './Signup';
 import Login from './Login';
 import { useState } from 'react';
@@ -14,17 +15,19 @@ export default function Connexion() {
     console.log(authMode);
     if (authMode === 'signin' || authMode === 'signinok') {
         if(authMode === 'signin') {
-            return (
+            return (<>
+                <img src={logo} alt='Logo de Groupomania' className='gpm-logo'/>
                 <div className='form'>
                     <div className="gpm-connexion">
                         <h2>Bienvenue !</h2>
                         <div className='gpm-inscrit'>
-                            <p>Pas encore inscrit !</p>
+                            <p>Vous n'avez pas de compte !</p>
                             <span onClick={changeAuthMode}>S'inscrire</span>
                         </div>  
                         <Login />
                     </div>
                 </div>
+                </>
             )
         } else {
             return (
@@ -32,7 +35,7 @@ export default function Connexion() {
                     <div className="gpm-connexion">
                         <h2>Bienvenue !</h2>
                         <div className='gpm-inscrit'>
-                            <p>Inscrition ok vous pouvez vous loguer</p>
+                            <p>Votre compte est créé ! Vous pouvez vous connecter</p>
                         </div>  
                         <Login />
                     </div>
@@ -46,7 +49,7 @@ export default function Connexion() {
                  <div className="gpm-connexion">
                  <h2>Bienvenue !</h2>
                  <div className='gpm-inscrit'>
-                    <p>Déjà inscrit !</p>
+                    <p>Vous avez un compte !</p>
                     <span onClick={changeAuthMode}>Se connecter</span>
                     </div>
                      <Signup authMode={authMode} setAuthMode={setAuthMode} />

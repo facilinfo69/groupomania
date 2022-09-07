@@ -1,17 +1,29 @@
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import Like from "./Like";
 import '../styles/Posts.css'
+
 
 function Posts() {
   let [posts, setPosts] = useState(null);
+  let [retour, setRetour] = useState(0);
 
   useEffect(() => {
-    recupererPosts();
-  }, [])
+    console.log('retour', retour);
+    let promose1 = recupererPosts();
+    promose1
+      .then(function (valeur) {
+
+        console.log(valeur);
+        setPosts(valeur);
+
+      });
+
+    console.log(promose1);
+  }, [retour])
 
 
-  function recupererPosts() {
+  async function recupererPosts() {
     return fetch("http://localhost:3000/api/post", {
       headers: {
         'Accept': 'application/json',
@@ -28,7 +40,7 @@ function Posts() {
       })
       .then(function (value) {
         console.log(value);
-        setPosts(value);
+        // setPosts(value);
         return value;
       })
       .catch(function (err) {
@@ -37,28 +49,60 @@ function Posts() {
 
 
   }
-  console.log(posts);
+
   if (posts == null) {
     return (<div>loading</div>)
   } else {
+    console.log(posts);
     return (
 
       <div className="gpm-posts">
         {
           posts.map((post, index) => {
+            console.log(post.usersLiked);
+            let myIndexLike = post.usersLiked.indexOf(localStorage.getItem('userid'));
+            let nbAime = post.usersLiked.length;
+            let aime = false;
+            if (myIndexLike !== -1) {
+              aime = true;
+              console.log('rouge');
+            } else {
+              aime = false;
+              console.log('gris');
+            }
+            //formater la date du post au format date de france
+            let dateDuPost = new Date(post.datePost);
+            let dateDuPostFormate = dateDuPost.toLocaleDateString('fr');
+            
             return (
-              <Link className="lienposts" to= {`/posts/${post._id}`}>
-              <div key={post._id} className='gpm-card-post'>
-                <div className="gpm-card titre">{post.titre}</div>
-                <div className="gpm-card contenu">
-                  {post.contenu}
-                  <img src={post.imageUrl} alt="test image" className="image"/>
+              // <Link className="lienposts" to= {`/posts/${post._id}`}>
+              <>
+                <div key={post._id} className='gpm-card-post'>
+                  <div key={`post.titre-${index}`} className="gpm-card titre">{post.titre}</div>
+
+                  <div key={`post.contenu-${index}`} className="gpm-card contenu">
+                    
+                    <img key={`post.image-${index}`} src={post.imageUrl} alt="test" className="image" />
+                    <pre  className="contenuarea">{post.contenu}</pre>
+                
+                    
+                  </div>
+                  <div key={`post.auteur-${index}`} className="gpm-card auteur">
+                    <span key={`post.postele-${index}`}>posté le {dateDuPostFormate}</span>
+                    <span key={`post.postepar-${index}`}>par {post.userId}</span>
+                  </div>
+
+                  <div key={`post.Like-${index}`} className='bouton'>
+                    {/* <LikePost posts={posts} setpost={setPosts} /> */}
+                    <Like retour={retour} setRetour={setRetour} id={post._id} aimeicone={aime} nbAime={nbAime} />
+                  </div>
+
+                  
+
                 </div>
-                <div className="gpm-card auteur">
-                  <span>posté le {post.datePost}</span>
-                  <span>par {post.userId}</span></div>
-              </div>
-              </Link>
+
+              </>
+              // </Link>
             )
           })
         }

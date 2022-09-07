@@ -10,9 +10,10 @@ import App from './components/App';
 import Posts from './components/Posts';
 import CreatePost from './components/CreatePost';
 import Banner from './components/Banner';
-import Post from './components/Post';
+// import Post from './components/Post obsolete';
 import DeletePost from './components/DeletePost';
-
+import LikePost from './components/LikePost';
+import Logout from './components/Logout';
 // import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -24,13 +25,14 @@ root.render(
       <Routes>
         <Route path='/' element={<App />} />
         <Route path='posts/' element={<Banner />} >
-          <Route path=':postId' element={<Post />} />
+          {/* <Route path=':postId' element={<Post />} /> */}
           <Route path='all' element={<Posts />}  />        
           <Route path='new' element={<CreatePost />} />
           <Route path='modify-post/:postId' element={<CreatePost />} />
           <Route path='delete-post/:postId' element={<DeletePost />} />
-          <Route path='logout' element={<App />}  />
+          <Route path='like-post/:postId' element={<LikePost />} />
         </Route>
+        <Route path='logout' element={<Logout />}  />
         
         {/* <Route path='/' element={<App />} >
           <Route path='login' element={<Login />} />

@@ -12,6 +12,7 @@ function Login() {
                     alert(user.message);
                 } else {
                     localStorage.setItem('token', user.token)
+                    localStorage.setItem('userid', user.userId)
                     let path = `posts/all`;
                     navigate(path);
                 }

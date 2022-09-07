@@ -6,7 +6,7 @@ const { now } = require('mongoose');
 // renvoie un tableau de tous les posts
 exports.getAllPost = (req, res, next) => {
     Post.find()
-        .then( posts => res.status(200).json(posts))
+        .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
 };
 
@@ -25,9 +25,9 @@ exports.createPost = (req, res, next) => {
     console.log("create post backend");
     // console.log(JSON.stringify(req.body.image));
     //transforme en objet sauce
-    
 
-    console.log('post',req.body.post);
+
+    console.log('post', req.body.post);
     console.log(req.file);
     const postObject = JSON.parse(req.body.post);
     //supprime l'id car créé par mongodn automatiquement
@@ -64,24 +64,24 @@ exports.modifyPost = (req, res, next) => {
         ...JSON.parse(req.body.post),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...JSON.parse(req.body.post) };
-    
+
     //supprime le userId pour mettre le userID authentifié 
     delete postObject._userId;
-    
+
     Post.findOne({ _id: req.params.id })
         .then((post) => {
-            
+
             //controle si l'utilisateur a le droit de modifier le fichier
             if (post.userId != req.auth.userId) {
                 res.status(401).json({ message: 'Not authorized' });
             } else {
-        
+
                 //met à jour le post
                 Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
                     .then(() => {
                         //si image modifiée,supprime l'ancienne image du repertoire image
                         if (req.file) {
-                            const filename = sauce.imageUrl.split('/images/')[1];
+                            const filename = post.imageUrl.split('/images/')[1];
                             fs.unlink(`images/${filename}`, () => { });
                         }
                         res.status(200).json({ message: 'post modifié !' });
@@ -108,6 +108,45 @@ exports.deletePost = (req, res, next) => {
                         .then(() => res.status(200).json({ message: 'Post supprimé !' }))
                         .catch(error => res.status(400).json({ error }));
                 })
+            }
+        })
+        .catch(error => res.status(500).json({ error }));
+};
+
+
+
+//controller qui definit le statut like/dislike
+// je recois :  { userId: String
+//        }
+
+exports.modifyLike = (req, res, next) => {
+
+    console.log('count');
+    //recherche le post
+    Post.findOne({ _id: req.params.id })
+        .then(post => {
+            let usersLiked = post.usersLiked;
+            //cherche si le userID est dans le tableau
+            let myIndexLike = usersLiked.indexOf(req.auth.userId);
+            console.log(myIndexLike);
+            // si userId est dans le tableau usersLiked alors je l'enleve
+            if (myIndexLike !== -1) {
+                console.log("doit supprimer");
+                usersLiked.splice(myIndexLike, 1);
+
+                Post.updateOne({ _id: req.params.id }, { usersLiked: usersLiked })
+                    .then(() => res.status(200).json({ message: 'like supprimé !' }))
+                    .catch(error => res.status(400).json({ error }));
+            } else {
+                //sinon userId n'est pas dans le tableau, l'ajouter dans le tableau
+                //ajoute le userId qui like
+                console.log("doit ajouter");
+                usersLiked.push(req.auth.userId);
+
+                Post.updateOne({ _id: req.params.id }, { usersLiked: usersLiked })
+                    .then(() => res.status(200).json({ message: 'like ajouté !' }))
+                    .catch(error => res.status(400).json({ error }));
+
             }
         })
         .catch(error => res.status(500).json({ error }));

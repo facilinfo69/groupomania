@@ -4,13 +4,15 @@ a, a:hover {
   }
   
   a:hover {
-    color: black;
-    border-bottom: solid 3px ;
+    color: #FD2D01;
   }
 
   a:active, a:focus {
-    color: black;
-    border-bottom: solid 4px ;
+    color: #FD2D01;
+  }
+
+  i {
+    font-size: 30px;
   }
 
 
@@ -20,17 +22,20 @@ a, a:hover {
     justify-content: space-around;
     font-size: 20px;
     border-bottom: 2px solid black;
-    padding: 20px 0px;
-    background-color: #FFD7D7;
+    padding: 15px 20px;
 }
 
-.logo{
+.gpm-logo{
     display: flex;
     align-items: center;
+    width: 30%;
+    color: #4E5166;
 }
+
 nav {
     display: flex;
     justify-content: center;
+    padding-right: 20px;
 }
 
 ul {
@@ -42,5 +47,9 @@ ul {
 }
 
 li {
-    padding: 10px;
+    padding: 20px;
+}
+
+li:last-child i{
+  padding-left: 60px;
 }

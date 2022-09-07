@@ -6,7 +6,7 @@
 }
 
 .gpm-connexion h2 {
-    color: black;
+    font-size: 30px;
 }
 
 .gpm-connexion p {
@@ -18,12 +18,13 @@
    border : solid 1px;
    border-radius: 15px;
    padding: 5px;
+   
 }
 
 .gpm-connexion span:hover {
-    color : #4E5166;
+    color : #FD2D01;
     cursor: pointer;
-    border-bottom: solid 2px #4E5166;
+    border-bottom: solid 2px #FD2D01;
 }
 
 .gpm-inscrit {
@@ -38,6 +39,11 @@
     display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.connexion img {
+    margin-bottom: 30px;
 }
 
 .form {
@@ -53,7 +59,7 @@
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
     padding: 20px 0px;
     font-family: 'Poppins', sans-serif;
-    color: black;
+    color: #4E5166;
     letter-spacing: 0.5px;
     outline: none;
     border: none;

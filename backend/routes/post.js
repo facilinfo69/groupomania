@@ -18,5 +18,7 @@ router.post('/',auth, multer, postCtrl.createPost);
 router.put('/:id', auth, multer, postCtrl.modifyPost);
 //route delete qui supprimer le post avec son id avec authentification
 router.delete('/:id', auth, postCtrl.deletePost);
+//route post qui permet de  like
+router.post('/like/:id', auth, postCtrl.modifyLike);
 
 module.exports = router;

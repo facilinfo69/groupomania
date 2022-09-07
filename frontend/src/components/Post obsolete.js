@@ -8,7 +8,7 @@ function Post() {
 
   useEffect(() => {
     recupererPost();
-  }, []);
+  }, [post]);
 
   let params = useParams();
   let navigate = useNavigate();
@@ -29,7 +29,6 @@ function Post() {
         }
       })
       .then(function (value) {
-        console.log(value);
         setPost(value);
         return value;
       })
@@ -43,7 +42,6 @@ function Post() {
 
 
     async function supprimerPost() {
-    console.log('delete');
     const res = await fetch(`http://localhost:3000/api/post/${params.postId}`, {
       method: "DELETE",
       headers: {
@@ -69,7 +67,6 @@ function Post() {
   }
 
   
-  console.log(post);
   if (post == null) {
     return (<div>loading </div>)
   } else {
