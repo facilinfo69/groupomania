@@ -81,7 +81,13 @@ exports.login = (req, res, next) => {
                     //{ userId: string,
                     // token: string }
                     res.status(200).json({
+                        admin: jwt.sign(
+                            { admin: user.admin},
+                            'RANDOM_TOKEN_SECRET',
+                            { expiresIn: '24h' }
+                            ),
                         userId: user._id,
+                        username: user.username,
                         // token web JSON signé
                         token: jwt.sign(
                             { userId: user._id },
@@ -93,4 +99,9 @@ exports.login = (req, res, next) => {
                 .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
+};
+
+exports.admin = (req, res, next) => {
+    console.log("login admin");
+    console.log('ges',req.auth.admin);
 };

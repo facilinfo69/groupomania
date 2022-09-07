@@ -5,7 +5,7 @@ import '../styles/Like.css'
 //     let aime = props.aimeicone;
 //     let nbAime = props.nbAime;
 function Like(props) {
-    let { retour, setRetour, id, aimeicone, nbAime } = props;
+    let { retour, setRetour, id, aimeicone, nbAime, admin } = props;
     console.log('id', id);
     console.log('aime', aimeicone);
 
@@ -31,7 +31,7 @@ function Like(props) {
         return fetch(`http://localhost:3000/api/post/like/${id}`, {
             method: "POST",
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('admin')
             },
 
         })
@@ -59,8 +59,11 @@ function Like(props) {
                     : <button className='bouton-coeur' onClick={() => likePost()}><i className="fa-regular fa-heart" ></i><span>{nbAime}</span> </button>}
             </div>
             <div className='bouton-action'>
-                <Link className='lien' to={`../modify-post/${id}`}><i className="fa-regular fa-pen-to-square"></i></Link>
-                <Link className='lien' to={`../delete-post/${id}`}><i className="fa-solid fa-trash-can"></i></Link>
+                {/* <Link className='lien' to={`../modify-post/${id}`}><i className="fa-regular fa-pen-to-square"></i></Link>
+                 <Link className='lien' to={`../delete-post/${id}`}><i className="fa-solid fa-trash-can"></i></Link>  */}
+                {admin ? <Link className='lien' to={`../modify-post/${id}`}><i className="fa-regular fa-pen-to-square"></i></Link> : null}
+                {admin ? <Link className='lien' to={`../delete-post/${id}`}><i className="fa-solid fa-trash-can"></i></Link> : null}
+
             </div>
 
 

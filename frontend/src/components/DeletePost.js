@@ -28,7 +28,7 @@ function DeletePost() {
         const res = await fetch(`http://localhost:3000/api/post/${params.postId}`, {
           method: "DELETE",
           headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('admin')
           }
         });
         return await res.json();

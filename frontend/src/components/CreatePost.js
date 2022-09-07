@@ -8,10 +8,10 @@ function CreatePost() {
 
   let navigate = useNavigate();
 
-  let[count, setCount] = useState(1);
-  let[countContenu, setCountContenu] = useState(1);
-  const [inputTitre, setInputTitre] = useState(''); 
-  const [inputContenu, setInputContenu] = useState(''); 
+  let [count, setCount] = useState(1);
+  let [countContenu, setCountContenu] = useState(1);
+  const [inputTitre, setInputTitre] = useState('');
+  const [inputContenu, setInputContenu] = useState('');
   const [image, setImage] = useState({ preview: '', data: '' });
 
   let [postModif, setPostModif] = useState(null);
@@ -44,7 +44,18 @@ function CreatePost() {
     }
     console.log(img);
     setImage(img);
+    postModif.imageUrl = img.preview;
     console.log(image.preview);
+  }
+
+  const supprImageClick = (e) => {
+    const img = {
+      preview: ' ',
+      data: ' ',
+    }
+    setImage(img);
+    postModif.imageUrl = img.preview;
+    console.log('supprimage', image);
   }
 
   function recupererPost() {
@@ -52,7 +63,7 @@ function CreatePost() {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+        'Authorization': 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('admin')
       }
     })
       .then(function (res) {
@@ -77,26 +88,31 @@ function CreatePost() {
       recupererPost();
     } else {
       console.log(postModif);
-      
+      console.log(image.data);
       console.log(count);
       // setInputTitre(postModif.titre);
 
       const modifierPost = () => {
         postCreate.titre = document.getElementById('titre').value;
         postCreate.contenu = document.getElementById('contenu').value;
+        if (image.data === ' ') {
+          postCreate.imageUrl = ' ';
+        }
+
+        
         let postString = JSON.stringify(postCreate);
-  
+
         let formData = new FormData();
         formData.append('post', postString);
         formData.append('file', image.data);
-  
+
         let reponse = modiferPostBd(formData);
         reponse
           .then(function () {
-  
+
             let path = `../all`;
             navigate(path);
-  
+
           });
       }
 
@@ -104,14 +120,14 @@ function CreatePost() {
         return fetch(`http://localhost:3000/api/post/${params.postId}`, {
           method: "PUT",
           headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('admin')
           },
           body: formData
         })
           .then(function (res) {
             return res.json();
           })
-  
+
       }
 
       return (
@@ -122,35 +138,36 @@ function CreatePost() {
               <div className='gpm-label-input ajout'>
                 <label htmlFor="titre">Titre</label>
                 {count === 1 ?
-                <input type="text" placeholder="Titre du post" id="titre"  onClick={handleTitreChange} value={postModif.titre} ></input>
-                 : 
-                 <input type="text" placeholder="Titre du post" id="titre"  onChange={handleTitreChange} value={inputTitre} ></input>}
+                  <input type="text" placeholder="Titre du post" id="titre" onClick={handleTitreChange} value={postModif.titre} ></input>
+                  :
+                  <input type="text" placeholder="Titre du post" id="titre" onChange={handleTitreChange} value={inputTitre} ></input>}
                 {/* <input type="text" placeholder="Titre du post" id="titre"  onChange={handleTitreChange} value={postModif.titre} ></input> */}
               </div>
               <div className='gpm-label-input ajout'>
                 <label htmlFor="contenu">Contenu</label>
                 {countContenu === 1 ?
-                <textarea placeholder="Contenu du post" id="contenu"  onClick={handleTitreContenu} value={postModif.contenu} ></textarea>
-                 : 
-                 <textarea placeholder="Contenu du post" id="contenu"  onChange={handleTitreContenu} value={inputContenu} ></textarea>}
+                  <textarea placeholder="Contenu du post" id="contenu" onClick={handleTitreContenu} value={postModif.contenu} ></textarea>
+                  :
+                  <textarea placeholder="Contenu du post" id="contenu" onChange={handleTitreContenu} value={inputContenu} ></textarea>}
                 {/* <textarea id="contenu" placeholder="Contenu du post" value={postModif.contenu}></textarea> */}
               </div>
-              
 
-              <div class="image-upload">
-                <label className='file-label' htmlFor="file">
-                  Modifier l'image
-                </label>
+
+              <div className="image-upload">
+                {postModif.imageUrl !== ' ' ? <label className='file-label' htmlFor="file">Modifier l'image</label>
+                  : <label className='file-label' htmlFor="file">Ajouter une image</label>}
 
                 <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
               </div>
-
-
-
             </form>
 
-            {postModif.imageUrl ? <img src={postModif.imageUrl} alt='preview' className='image'></img> : null}
-            {image.preview ? <img src={image.preview} alt='preview' className='image'></img> : null}
+            <div className="image-suppr">
+              {postModif.imageUrl !== ' ' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} >Supprimer l'image</button>
+                : null}
+            </div>
+
+            {postModif.imageUrl !== ' ' ? <img src={postModif.imageUrl} alt='preview' className='image'></img> : null}
+            {/* {image.preview ? <img src={image.preview} alt='preview' className='image'></img> : null} */}
 
             {/* <button className='btn-ajouter-image'>Ajouter une image</button> */}
           </div>
@@ -174,7 +191,7 @@ function CreatePost() {
   if (!params.postId) {
     console.log('create');
     console.log(image.preview);
-    
+
 
     const ajouterPost = () => {
       postCreate.titre = document.getElementById('titre').value;
@@ -184,6 +201,7 @@ function CreatePost() {
       let formData = new FormData();
       formData.append('post', postString);
       formData.append('file', image.data);
+      formData.append('username', localStorage.getItem('username'));
 
       let reponse = envoyerPost(formData);
       reponse
@@ -199,7 +217,7 @@ function CreatePost() {
       return fetch("http://localhost:3000/api/post", {
         method: "POST",
         headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token')
+          'Authorization': 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('admin')
         },
         body: formData
       })
@@ -223,12 +241,12 @@ function CreatePost() {
             </div>
             {/* <input type="file" id="file" name='file' onChange={handleFileChange}></input> */}
             <div class="image-upload">
-                <label className='file-label' htmlFor="file">
-                  Ajouter une image
-                </label>
+              <label className='file-label' htmlFor="file">
+                Ajouter une image
+              </label>
 
-                <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
-              </div>
+              <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
+            </div>
             {/* <div className='file-input'>
               <input className='file' type="file" id="file" name='file' onChange={handleFileChange}></input> */}
             {/* <label htmlfor="file">Select file</label> */}

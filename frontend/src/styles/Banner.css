@@ -12,7 +12,7 @@ a, a:hover {
   }
 
   i {
-    font-size: 30px;
+    font-size: 40px;
   }
 
 
@@ -30,6 +30,7 @@ a, a:hover {
     align-items: center;
     width: 30%;
     color: #4E5166;
+    object-fit:scale-down;
 }
 
 nav {
@@ -48,8 +49,17 @@ ul {
 
 li {
     padding: 20px;
+    display: flex;
+    align-items: center;
 }
 
 li:last-child i{
   padding-left: 60px;
 }
+
+li span {
+  color: #4E5166;
+  padding-left: 10px;
+  font-size: 15px;
+}
+

@@ -13,6 +13,8 @@ function Login() {
                 } else {
                     localStorage.setItem('token', user.token)
                     localStorage.setItem('userid', user.userId)
+                    localStorage.setItem('admin',user.admin)
+                    localStorage.setItem('username',user.username)
                     let path = `posts/all`;
                     navigate(path);
                 }

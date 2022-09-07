@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userCtrl = require('../controllers/user');
 
+
 //route POST pour créer un compte 
 router.post('/signup', userCtrl.signup); 
 //route POST pour se connecter

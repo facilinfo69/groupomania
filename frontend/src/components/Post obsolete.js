@@ -18,7 +18,7 @@ function Post() {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+        'Authorization': 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('admin')
       }
     })
       .then(function (res) {
@@ -45,7 +45,7 @@ function Post() {
     const res = await fetch(`http://localhost:3000/api/post/${params.postId}`, {
       method: "DELETE",
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+        'Authorization': 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('admin')
       }
     })
     .then(function (res) {

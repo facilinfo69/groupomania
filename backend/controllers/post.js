@@ -6,7 +6,13 @@ const { now } = require('mongoose');
 // renvoie un tableau de tous les posts
 exports.getAllPost = (req, res, next) => {
     Post.find()
-        .then(posts => res.status(200).json(posts))
+        .then(posts => {
+            console.log('toutsimplement',req.auth.admin);
+            res.status(200).json({
+                posts:posts,
+                admin: req.auth.admin
+            })
+        })
         .catch(error => res.status(400).json({ error }));
 };
 
@@ -29,12 +35,21 @@ exports.createPost = (req, res, next) => {
 
     console.log('post', req.body.post);
     console.log(req.file);
+    console.log('user',req.body.username);
     const postObject = JSON.parse(req.body.post);
     //supprime l'id car créé par mongodn automatiquement
     delete postObject._id;
     //supprime le userId pour mettre le userID authentifié 
     delete postObject._userId;
+    let fichier;
     // crée une instance du modèle Post
+    if (req.file) {
+        fichier = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    } else {
+        fichier = ' ';
+    }
+
+    console.log('ajour sans image',fichier);
     const post = new Post({
         // 
         ...postObject,
@@ -44,10 +59,11 @@ exports.createPost = (req, res, next) => {
         datePost: Date.now(),
         // définit l url de l'image
         // imageUrl: 'testimage',
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        
+        imageUrl: fichier,
         // initialise les tableaux like, dislike à vide
         usersLiked: [],
-        usersDisliked: []
+        userName: req.body.username
     });
     // enregistre le post dans la bdd
     post.save()
@@ -59,12 +75,13 @@ exports.createPost = (req, res, next) => {
 //deux possibilités : une modif avec un fichier image ou sans fichier image
 exports.modifyPost = (req, res, next) => {
     //on verifie la présence du fichier image
+    console.log('enlever image un',req.file);
     const postObject = req.file ? {
         // si fichier image,  transforme en objet post et récupère le chemin du fichier image sinon recupere les données modifiées du post
         ...JSON.parse(req.body.post),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...JSON.parse(req.body.post) };
-
+    console.log('enlever image',req.body.post);
     //supprime le userId pour mettre le userID authentifié 
     delete postObject._userId;
 
@@ -72,15 +89,17 @@ exports.modifyPost = (req, res, next) => {
         .then((post) => {
 
             //controle si l'utilisateur a le droit de modifier le fichier
-            if (post.userId != req.auth.userId) {
+            if (post.userId != req.auth.userId && req.auth.admin === false) {
                 res.status(401).json({ message: 'Not authorized' });
             } else {
+                console.log('eximage',post.imageUrl);
 
                 //met à jour le post
                 Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
                     .then(() => {
+                        console.log('aieieie',postObject.imageUrl);
                         //si image modifiée,supprime l'ancienne image du repertoire image
-                        if (req.file) {
+                        if (req.file || postObject.imageUrl === ' ' ) {
                             const filename = post.imageUrl.split('/images/')[1];
                             fs.unlink(`images/${filename}`, () => { });
                         }
@@ -96,8 +115,10 @@ exports.modifyPost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
     Post.findOne({ _id: req.params.id })
         .then(post => {
+            console.log(post.userId);
+            console.log(req.auth.userId);
             //controle si l'utilisateur a le droit de supprimer le fichier
-            if (post.userId != req.auth.userId) {
+            if (post.userId != req.auth.userId && req.auth.admin === false) {
                 res.status(401).json({ message: 'Not authorized' });
             } else {
                 //supprime l'image du repertoire

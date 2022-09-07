@@ -18,7 +18,7 @@ function LikePost(props) {
         return fetch(`http://localhost:3000/api/post/like/${params.postId}`, {
             method: "POST",
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('admin')
             },
 
         })
