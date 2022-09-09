@@ -10,39 +10,25 @@ import App from './components/App';
 import Posts from './components/Posts';
 import CreatePost from './components/CreatePost';
 import Banner from './components/Banner';
-// import Post from './components/Post obsolete';
 import DeletePost from './components/DeletePost';
-import LikePost from './components/LikePost';
 import Logout from './components/Logout';
 // import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-
-
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<App />} />
-        <Route path='posts/' element={<Banner />} >
-          {/* <Route path=':postId' element={<Post />} /> */}
-          <Route path='all' element={<Posts />}  />        
-          <Route path='new' element={<CreatePost />} />
-          <Route path='modify-post/:postId' element={<CreatePost />} />
-          <Route path='delete-post/:postId' element={<DeletePost />} />
-          <Route path='like-post/:postId' element={<LikePost />} />
+        <Route path='/' element={<App />} /> {/*route pour la connexion */}
+        <Route path='posts/' element={<Banner />} > {/*route parent avec le banner*/}
+          <Route path='all' element={<Posts />}  />  {/*route qui affiche tous les posts*/}      
+          <Route path='new' element={<CreatePost />} />{/*route pour créer un nouveau post */}
+          <Route path='modify-post/:postId' element={<CreatePost />} /> {/*route pour modifier un post */}
+          <Route path='delete-post/:postId' element={<DeletePost />} />  {/*route pour supprimer un post */}
         </Route>
-        <Route path='logout' element={<Logout />}  />
-        
-        {/* <Route path='/' element={<App />} >
-          <Route path='login' element={<Login />} />
-          <Route path='signup' element={<Signup />} />
-        </Route> */}
+        <Route path='logout' element={<Logout />}  /> {/*route pour se deconnecter */}
       </Routes>
     </BrowserRouter>
-
-
-
   </React.StrictMode>
 );
 

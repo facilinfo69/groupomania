@@ -1,54 +1,112 @@
-.gpm-card-post-new{
-    box-shadow: 0 0 40px rgba(8, 7, 16, 0.7);
-    display: flex;
-    width: 50%;
-    flex-direction: column;
-    background-color:  #4E5166;
-    align-items: center;
-    border-radius: 20px;
-    margin-top:10px;
-    padding: 10px;
+.gpm-posts .ajout{
+    height: 100%;
 }
-
-
-
-.ajout label{
-    color: #FFD7D7;
-}
-
-.ajout input{
+.gpm-card-post{
+    font-family: 'Lato', sans-serif;
     background-color: white;
 }
 
-#contenu{
-    height: 250px;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border-radius: 20px;
-    margin-top: 10px;
-    padding: 15px;
+.gpm-card input {
+    border: none;
+    font-weight: bold;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    height: 50px;
+    margin: 10px 0px;
+    padding: 0px;
+    width: 100%;
+    text-align: center;
 }
 
-.btn-ajouter-image{
+
+.gpm-card input::placeholder {
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
+textarea{
+    padding: 0px;
+}
+#contenu {
+    height: 250px;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+   border:none;
+    margin-top: 10px;
+    width: 100%;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    overflow: auto;
+}
+#contenu::placeholder{
+    padding: 10px;
+}
+
+.btn-ajouter-image {
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .file-input {
     opacity: 0;
     width: 0.1px;
     height: 0.1px;
-  }
+}
 
-  .file-label {
-    width: 200px;
-    height: 50px;
-    border-radius: 25px;
-    background-color: #FFD7D7;
-    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.file-label {
+    margin-left: 20px;
     color: #4E5166;
-    font-weight: bold;
     cursor: pointer;
-  }
+}
+
+.file-label:hover{
+    color: #FD2D01;
+    cursor: pointer;
+}
+
+.image {
+    margin-top: 15px;
+}
+
+.bouton-create {
+    text-align: center;
+}
+
+.bouton-create .btn-ajouter {
+    background-color: transparent;
+    border: none;
+    padding-bottom: 10px;
+    margin-right: 20px;
+}
+
+.bouton-create .btn-ajouter:hover {
+   color: #FD2D01;
+   cursor: pointer;
+}
+
+.bouton-create .btn-annuler {
+    background-color: transparent;
+    border: none;
+    padding-bottom: 10px;
+}
+
+.bouton-create .btn-annuler:hover {
+   color: #FD2D01;
+   cursor: pointer;
+}
+
+
+.image-upload {
+    display: flex;
+    justify-content: space-around;
+}
+
+.image-suppr button{
+    background-color: #fff;
+    border: none;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+}

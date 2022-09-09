@@ -1,64 +1,93 @@
-.gpm-posts{
+.gpm-posts {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #4E5166;
 }
-.gpm-card-post{
+
+.gpm-card-post {
     display: flex;
     flex-direction: column;
     width: 470px;
-    margin-top:15px;
+    margin-top: 15px;
     border-radius: 10px;
     border: solid 1px #4E5166;
     background-color: #fff;
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.8);
 }
 
-.gpm-card{
+.gpm-card-post:first-child {
+    margin-top: 120px;
+}
+
+
+.gpm-card {
     font-family: 'Lato', sans-serif;
     background-color: white;
 
 }
 
-.gpm-card.titre{
+.gpm-card.titre {
     font-weight: bold;
     display: flex;
     align-self: center;
     align-items: center;
-    height:50px;
+    height: 50px;
 
 }
 
-.gpm-card.contenu{
+.gpm-card.contenu {
     display: flex;
     flex-direction: column;
 }
 
 .contenuarea {
-    
+
     font-size: 15px;
-    padding-left: 10px;
+    padding-left: 25px;
     overflow: auto;
     font-family: 'Lato', sans-serif;
-    
+
 }
 
 
 pre.contenuarea {
-    margin:Opx;
+    margin: Opx;
 }
 
-.gpm-card.auteur{
+.gpm-card.auteur {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin:5px;
+    margin-right: 25px;
+    margin-left: 25px;
+    font-size: 14px;
 }
 
-.image{
+.image {
     width: 100%;
-   max-height: 600px;
-    object-fit:cover;
-    object-position:center;
+    max-height: 600px;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+.bouton-ancre {
+    color: #FD2D01;
+    /* couleur du texte */
+    cursor: pointer;
+    /* apparence du curseur */
+    display: inline-block;
+    /* autorise les marges sur un élément "a" */
+    /* border: solid 1px #ff6347; applique une bordure rouge */
+    padding: 5px;
+    /* espace entre la bordure et le texte */
+    display: none;
+}
+
+.bouton-ancre:last-child {
+    display: block;
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
 }

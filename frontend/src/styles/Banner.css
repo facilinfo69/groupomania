@@ -23,12 +23,14 @@ a, a:hover {
     font-size: 20px;
     border-bottom: 2px solid black;
     padding: 15px 20px;
+    background-color: #fff;
+    height: 60px;
 }
 
 .gpm-logo{
     display: flex;
     align-items: center;
-    width: 30%;
+    width: 15%;
     color: #4E5166;
     object-fit:scale-down;
 }
@@ -63,3 +65,7 @@ li span {
   font-size: 15px;
 }
 
+
+#banner {
+  position: fixed;
+}

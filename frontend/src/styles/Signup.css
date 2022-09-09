@@ -1,4 +1,4 @@
-.gpm-signup {
+.connexion .gpm-signup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,14 +6,14 @@
     width: 100%;
 }
 
-.gpm-label-input {
+.connexion .gpm-label-input {
     display: flex;
     flex-direction: column;
     width: 80%;
 }
 
 
-label {
+.connexion label {
     margin-top: 30px;
     padding-left: 5px;
     font-size: 16px;
@@ -21,7 +21,7 @@ label {
     color: #4E5166;
 }
 
-input {
+.connexion input {
     height: 50px;
     border-radius: 20px;
     margin-top: 8px;
@@ -31,11 +31,11 @@ input {
     border: solid 2px #4E5166;
 }
 
-::placeholder {
+.connexion ::placeholder {
     color: black;
 }
 
-button {
+.connexion button {
     margin-top: 50px;
     width: 50%;
     color: #4E5166;
@@ -47,11 +47,21 @@ button {
     border-color: #4E5166;
 }
 
-button:hover {
+.connexion button:hover {
     color: #FD2D01;
     border-color: #FD2D01;
 }
 
 .gpm-message{
     margin-top: 15px;
+}
+
+.validation{
+    margin-top: 10px;
+    font-size: 14px;
+    padding-left: 15px;
+}
+
+#btn-inscrire {
+    margin-top: 20px;
 }

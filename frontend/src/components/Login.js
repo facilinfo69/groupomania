@@ -4,7 +4,17 @@ import '../styles/Login.css'
 function Login() {
     let navigate = useNavigate();
 
-    const routeChange = () => {
+    // simule le click sur le bouton se connecter quand on appuie sur entrée
+    const entreeOnClick = (event) => {
+        if (event.key === 'Enter') {document.getElementById('bouton').click()};
+    }
+
+    //s'execute au click btn se connecter - 
+    //va interroger la bdd coté backend et selon la réponse, 
+    //afficher un message d'erreur 
+    //ou se connecter et afficher la liste de tous les posts
+    const seConnecter = () => {
+        //interroge la bdd coté backend
         let reponse = connecterUser(document.getElementById('email').value, document.getElementById('password').value);
         reponse
             .then(function (user) {
@@ -15,37 +25,36 @@ function Login() {
                     localStorage.setItem('userid', user.userId)
                     localStorage.setItem('admin',user.admin)
                     localStorage.setItem('username',user.username)
+                    //affiche tous les posts
                     let path = `posts/all`;
                     navigate(path);
                 }
             });
     }
 
-    function connecterUser(email, password) {
-        return fetch("http://localhost:3000/api/auth/login", {
+    async function connecterUser(email, password) {
+        const res = await fetch("http://localhost:3000/api/auth/login", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, password })
-        })
-            .then(function (res) {
-                return res.json();
-            })
+        });
+        return await res.json();
     }
 
     return (
         <div className='gpm-signup'>
             <div className='gpm-label-input'>
                 <label htmlFor="email">Email</label>
-                <input type="email" placeholder="Email" id="email"></input>
+                <input type="email" placeholder="Email" id="email"  onKeyDown={entreeOnClick}></input>
             </div>
             <div className='gpm-label-input'>
                 <label htmlFor="password">Mot de passe</label>
-                <input type="password" placeholder="Mot de passe" id="password"></input>
+                <input type="password" placeholder="Mot de passe" id="password" onKeyDown={entreeOnClick}></input>
             </div>
-            <button onClick={() => routeChange()}>Se connecter</button>
+            <button  id='bouton' onClick={() => seConnecter()}>Se connecter</button>
         </div>
     )
 }

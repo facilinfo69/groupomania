@@ -6,6 +6,7 @@ function Logout() {
   localStorage.setItem('token', '');
   localStorage.setItem('userid', '');
   localStorage.setItem('admin', '');
+  localStorage.setItem('username', '');
   let navigate = useNavigate();
   let path = `../`;
   navigate(path);

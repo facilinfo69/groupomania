@@ -55,10 +55,18 @@ if (posts == null) {
 } else {
   console.log(adminBd);
   console.log(posts);
+
+  //classé les posts par date antéchronologique (du plus récent au plus ancien)
+  posts.sort(function(a,b){
+    return new Date(b.datePost) - new Date(a.datePost)
+  });
+
   return (
 
     <div className="gpm-posts">
       {
+        
+
         posts.map((post, index) => {
           console.log(post);
 
@@ -115,6 +123,8 @@ if (posts == null) {
 
 
               </div>
+              <a className="bouton-ancre" href="#"><i className="fa-solid fa-circle-up"></i></a>
+
 
             </>
             // </Link>

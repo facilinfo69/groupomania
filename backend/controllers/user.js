@@ -16,11 +16,10 @@ exports.signup = (req, res, next) => {
     //propriétés du mot de passe
     schemaPassword
         .is().min(8)                                    // Minimum 8 caractères
-        .is().max(50)                                   // Maximum 50 caractères
         .has().uppercase()                              // doit avoir une Majuscule
         .has().lowercase()                              // doit avoir minuscule
         .has().digits(2)                                // au moins 2 chiffres
-         .has().not().spaces()                           // pas d'espace
+
     //on peut ajouter une blacklist de mot de passe
     //.is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
      if (schemaPassword.validate(req.body.password)) {

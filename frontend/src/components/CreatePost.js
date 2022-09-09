@@ -8,10 +8,10 @@ function CreatePost() {
 
   let navigate = useNavigate();
 
-  let [count, setCount] = useState(1);
-  let [countContenu, setCountContenu] = useState(1);
-  const [inputTitre, setInputTitre] = useState('');
-  const [inputContenu, setInputContenu] = useState('');
+  // let [count, setCount] = useState(1);
+  // let [countContenu, setCountContenu] = useState(1);
+  // const [inputTitre, setInputTitre] = useState('');
+  // const [inputContenu, setInputContenu] = useState('');
   const [image, setImage] = useState({ preview: '', data: '' });
 
   let [postModif, setPostModif] = useState(null);
@@ -22,17 +22,22 @@ function CreatePost() {
   };
 
 
-  const handleTitreChange = (e) => {
-    console.log(count);
-    count++;
-    setCount(count);
-    setInputTitre(document.getElementById('titre').value);
-  }
 
-  const handleTitreContenu = (e) => {
-    countContenu++;
-    setCountContenu(countContenu);
-    setInputContenu(document.getElementById('contenu').value);
+  // const handleTitreChange = (e) => {
+  //   console.log(count);
+  //   count++;
+  //   setCount(count);
+  //   setInputTitre(document.getElementById('titre').value);
+  // }
+
+  // const handleTitreContenu = (e) => {
+  //   countContenu++;
+  //   setCountContenu(countContenu);
+  //   setInputContenu(document.getElementById('contenu').value);
+  // }
+  const annuler = () => {
+    let path = `../all`;
+    navigate(path);
   }
 
 
@@ -58,7 +63,7 @@ function CreatePost() {
     console.log('supprimage', image);
   }
 
-  function recupererPost() {
+  async function recupererPost() {
     return fetch(`http://localhost:3000/api/post/${params.postId}`, {
       headers: {
         'Accept': 'application/json',
@@ -89,7 +94,7 @@ function CreatePost() {
     } else {
       console.log(postModif);
       console.log(image.data);
-      console.log(count);
+      // console.log(count);
       // setInputTitre(postModif.titre);
 
       const modifierPost = () => {
@@ -99,7 +104,7 @@ function CreatePost() {
           postCreate.imageUrl = ' ';
         }
 
-        
+
         let postString = JSON.stringify(postCreate);
 
         let formData = new FormData();
@@ -116,7 +121,7 @@ function CreatePost() {
           });
       }
 
-      function modiferPostBd(formData) {
+      async function modiferPostBd(formData) {
         return fetch(`http://localhost:3000/api/post/${params.postId}`, {
           method: "PUT",
           headers: {
@@ -132,46 +137,63 @@ function CreatePost() {
 
       return (
 
-        <div className="gpm-posts">
-          <div className='gpm-card-post-new'>
+        <div className="gpm-posts modif">
+          <div className='gpm-card-post'>
             <form id='formElem'>
-              <div className='gpm-label-input ajout'>
-                <label htmlFor="titre">Titre</label>
-                {count === 1 ?
+              <div className='gpm-card'>
+                {/* <label htmlFor="titre">Titre</label> */}
+
+                <input type="text" placeholder="Titre du post" id="titre" defaultValue={postModif.titre} ></input>
+              </div>
+              <div className="image-upload">
+                {postModif.imageUrl !== ' ' ? <label className='file-label' htmlFor="file"><i className="fa-solid fa-image"></i><i className="fa-solid fa-arrows-rotate"></i></label>
+                  : <label className='file-label' htmlFor="file"><i className="fa-solid fa-image">+</i></label>}
+
+                <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
+                <div className="image-suppr">
+                  {postModif.imageUrl !== ' ' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} ><i className="fa-solid fa-image"></i><i className="fa-solid fa-trash"></i></button>
+                    : null}
+                </div>
+              </div>
+
+
+              {postModif.imageUrl !== ' ' ? <img src={postModif.imageUrl} alt='preview' className='image'></img> : null}
+
+
+              {/* {count === 1 ?
                   <input type="text" placeholder="Titre du post" id="titre" onClick={handleTitreChange} value={postModif.titre} ></input>
                   :
-                  <input type="text" placeholder="Titre du post" id="titre" onChange={handleTitreChange} value={inputTitre} ></input>}
-                {/* <input type="text" placeholder="Titre du post" id="titre"  onChange={handleTitreChange} value={postModif.titre} ></input> */}
-              </div>
+                  <input type="text" placeholder="Titre du post" id="titre" onChange={handleTitreChange} value={inputTitre} ></input>} */}
+              {/* <input type="text" placeholder="Titre du post" id="titre"  onChange={handleTitreChange} value={postModif.titre} ></input> */}
+
               <div className='gpm-label-input ajout'>
-                <label htmlFor="contenu">Contenu</label>
-                {countContenu === 1 ?
+                {/* <label htmlFor="contenu">Contenu</label> */}
+
+                <textarea placeholder="Contenu du post" id="contenu" defaultValue={postModif.contenu} ></textarea>
+
+                {/* {countContenu === 1 ?
                   <textarea placeholder="Contenu du post" id="contenu" onClick={handleTitreContenu} value={postModif.contenu} ></textarea>
                   :
-                  <textarea placeholder="Contenu du post" id="contenu" onChange={handleTitreContenu} value={inputContenu} ></textarea>}
+                  <textarea placeholder="Contenu du post" id="contenu" onChange={handleTitreContenu} value={inputContenu} ></textarea>} */}
                 {/* <textarea id="contenu" placeholder="Contenu du post" value={postModif.contenu}></textarea> */}
               </div>
 
 
-              <div className="image-upload">
-                {postModif.imageUrl !== ' ' ? <label className='file-label' htmlFor="file">Modifier l'image</label>
-                  : <label className='file-label' htmlFor="file">Ajouter une image</label>}
 
-                <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
-              </div>
             </form>
 
-            <div className="image-suppr">
-              {postModif.imageUrl !== ' ' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} >Supprimer l'image</button>
-                : null}
-            </div>
 
-            {postModif.imageUrl !== ' ' ? <img src={postModif.imageUrl} alt='preview' className='image'></img> : null}
+
+            <div className='bouton-create'>
+              <button onClick={() => modifierPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check"></i></button>
+              <button onClick={() => annuler()} className='btn-annuler'><i className="fa-solid fa-circle-xmark"></i></button>
+
+            </div>
             {/* {image.preview ? <img src={image.preview} alt='preview' className='image'></img> : null} */}
 
             {/* <button className='btn-ajouter-image'>Ajouter une image</button> */}
           </div>
-          <button onClick={() => modifierPost()} className='btn-ajouter'>Modifier</button>
+          {/* <button onClick={() => modifierPost()} className='btn-ajouter'>Modifier</button> */}
         </div>
       )
 
@@ -213,6 +235,9 @@ function CreatePost() {
         });
     }
 
+
+
+
     function envoyerPost(formData) {
       return fetch("http://localhost:3000/api/post", {
         method: "POST",
@@ -228,70 +253,41 @@ function CreatePost() {
     }
 
     return (
-      <div className="gpm-posts">
-        <div className='gpm-card-post-new'>
+      <div className="gpm-posts ajout">
+        <div className='gpm-card-post'>
           <form id='formElem'>
-            <div className='gpm-label-input ajout'>
-              <label htmlFor="titre">Titre</label>
-              <input type="text" placeholder="Titre du post" id="titre" onChange={handleTitreChange} value={inputTitre}></input>
+            <div className='gpm-card'>
+              {/* <label htmlFor="titre">Titre</label> */}
+              <input type="text" placeholder="Titre du post" id="titre"></input>
+              {/* <input type="text" placeholder="Titre du post" id="titre" onChange={handleTitreChange} value={inputTitre}></input> */}
             </div>
-            <div className='gpm-label-input ajout'>
-              <label htmlFor="contenu">Contenu</label>
-              <textarea id="contenu" placeholder="Contenu du post" onChange={handleTitreContenu} value={inputContenu}></textarea>
-            </div>
-            {/* <input type="file" id="file" name='file' onChange={handleFileChange}></input> */}
-            <div class="image-upload">
+            <div className="image-upload-create">
               <label className='file-label' htmlFor="file">
-                Ajouter une image
+                <i className="fa-solid fa-image">+</i>
               </label>
 
               <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
+              {image.preview ? <img src={image.preview} alt='preview' className='image'></img> : null}
+
             </div>
-            {/* <div className='file-input'>
-              <input className='file' type="file" id="file" name='file' onChange={handleFileChange}></input> */}
-            {/* <label htmlfor="file">Select file</label> */}
-            {/* </div> */}
+
+            <div className='gpm-label-input ajout'>
+
+              <textarea id="contenu" placeholder="Contenu du post"></textarea>
+              {/* <textarea id="contenu" placeholder="Contenu du post" onChange={handleTitreContenu} value={inputContenu}></textarea> */}
+            </div>
 
           </form>
-          {image.preview ? <img src={image.preview} alt='preview' className='image'></img> : null}
+          <div className='bouton-create'>
+            <button onClick={() => ajouterPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check"></i></button>
+            <button onClick={() => annuler()} className='btn-annuler'><i className="fa-solid fa-circle-xmark"></i></button>
 
-          {/* <button className='btn-ajouter-image'>Ajouter une image</button> */}
+          </div>
         </div>
-        <button onClick={() => ajouterPost()} className='btn-ajouter'>Publier</button>
+
       </div>
     )
   }
-  // else {
-
-  //   return (
-
-  //     <div className="gpm-posts">
-  //       <div className='gpm-card-post-new'>
-  //         <form id='formElem'>
-  //           <div className='gpm-label-input ajout'>
-  //             <label htmlFor="titre">Titre</label>
-  //             <input type="text" placeholder="Titre du post" id="titre"></input>
-  //           </div>
-  //           <div className='gpm-label-input ajout'>
-  //             <label htmlFor="contenu">Contenu</label>
-  //             <textarea id="contenu" placeholder="Contenu du post"></textarea>
-  //           </div>
-  //           <input type="file" id="file" name='file'></input>
-  //         </form>
-  //         {/* {post.imageUrl ? <img src={post.imageUrl} alt='image preview' className='image'></img> : null} */}
-
-  //         {/* <button className='btn-ajouter-image'>Ajouter une image</button> */}
-  //       </div>
-  //       {/* <button onClick={() => ajouterPost()} className='btn-ajouter'>Publier</button> */}
-  //     </div>
-  //   )
-
-
-  // }
-
-
-
-
 }
 
 export default CreatePost

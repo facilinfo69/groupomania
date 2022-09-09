@@ -3,9 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from "react";
 
 function DeletePost() {
-  //recupere parametre si parametre mettre en mode modif sinon mode creation
+  //recupere parametre id du post
   let params = useParams();
-
   let navigate = useNavigate();
 
 
@@ -13,12 +12,9 @@ function DeletePost() {
     let reponse = supprimerPost();
         reponse
           .then(function () {
-  
             let path = `../all`;
             navigate(path);
-  
           });
-
   }, []);
 
   

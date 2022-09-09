@@ -44,7 +44,9 @@ exports.createPost = (req, res, next) => {
     let fichier;
     // crée une instance du modèle Post
     if (req.file) {
+        
         fichier = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+
     } else {
         fichier = ' ';
     }
@@ -67,7 +69,9 @@ exports.createPost = (req, res, next) => {
     });
     // enregistre le post dans la bdd
     post.save()
-        .then(() => res.status(201).json({ message: 'Post enregistré !' }))
+        .then(() => {
+            res.status(201).json({ message: 'Post enregistré !' })
+        })
         .catch(error => res.status(400).json({ error }));
 };
 
