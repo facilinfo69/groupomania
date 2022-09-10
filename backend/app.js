@@ -2,7 +2,7 @@
 const express = require('express');
 //importer mongoose pour faciliter l'accès à la base de données
 const mongoose = require('mongoose');
-// importer le routeur pour les sauces
+// importer le routeur pour les posts
 const postRoutes = require('./routes/post');
 // importer le routeur pour la connexion/inscription des utilisateurs
 const userRoutes = require('./routes/user');
