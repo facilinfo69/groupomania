@@ -6,27 +6,17 @@ import '../styles/Like.css'
 //     let nbAime = props.nbAime;
 function Like(props) {
     let { retour, setRetour, id, aimeicone, nbAime, admin } = props;
-    console.log('id', id);
-    console.log('aime', aimeicone);
 
     function likePost() {
-        console.log('aimerpost');
+        //à chaque click sur le coeur, si ok variable reout mis à jour qui permettra de réafficher tous les posts dans le composant Posts
         let reponse = likerPost(id);
         reponse
             .then(function (valeur) {
-                console.log('rafraichirs');
-                console.log(retour);
                 setRetour(retour + 1);
             });
-
-        //   let path = `../all`;
-        //         navigate(path);
-
     };
 
-
-
-
+    //envoie au backend le post à liker : va mettre à jour le tableau des usersLiked (enleve ou ajoute "toggle")
     function likerPost(id) {
         return fetch(`http://localhost:3000/api/post/like/${id}`, {
             method: "POST",
@@ -48,37 +38,18 @@ function Like(props) {
             });
     }
 
-
-
     return (
         <>
-
-
             <div className='coeur'>
                 {aimeicone ? <button className='bouton-coeur' onClick={() => likePost()}><i className="fa-solid fa-heart" ></i><span>{nbAime}</span> </button>
                     : <button className='bouton-coeur' onClick={() => likePost()}><i className="fa-regular fa-heart" ></i><span>{nbAime}</span> </button>}
             </div>
             <div className='bouton-action'>
-                {/* <Link className='lien' to={`../modify-post/${id}`}><i className="fa-regular fa-pen-to-square"></i></Link>
-                 <Link className='lien' to={`../delete-post/${id}`}><i className="fa-solid fa-trash-can"></i></Link>  */}
                 {admin ? <Link className='lien' to={`../modify-post/${id}`}><i className="fa-regular fa-pen-to-square"></i></Link> : null}
                 {admin ? <Link className='lien' to={`../delete-post/${id}`}><i className="fa-solid fa-trash-can"></i></Link> : null}
-
             </div>
-
-
-
-
-
         </>
-
     )
-
 }
-
-
-
-
-
 
 export default Like

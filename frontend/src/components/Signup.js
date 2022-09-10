@@ -2,33 +2,18 @@ import { useState } from 'react';
 import '../styles/Signup.css'
 
 
-function Signup({ authMode, setAuthMode }) {
-
+function Signup({ setAuthMode }) {
     let [reponseApi, setreponseApi] = useState(null);
+    //variables pour controler les inputs
     let str, email, user, msgUser, msgEmail, msgChiffre, msgMaj, msgMin, msgCarSpe, msgLg;
-    let mdp, emailvalidation, uservalidation;
-
-
-
-
-
-   
-
-    const verifierInscription = (event) => {
-        console.log('mdp', mdp, "email", emailvalidation,'user',uservalidation);
-        if (mdp && emailvalidation && uservalidation) {
-            inscrireUser(document.getElementById('username').value, document.getElementById('email').value, document.getElementById('password').value);
-        }
-
-    }
-
-
-
+    let mdpvalidation, emailvalidation, uservalidation;
+ 
+    //controle de l'input username obligatoie et plus de 3 caractères
     const verifierUsername = (event) => {
+        //simule le click validation
         if (event.key === 'Enter') { document.getElementById('btn-inscrire').click() };
         
         user = document.getElementById("username").value;
-
         if (user.length >= 3) {
             msgUser = "";
             document.getElementById("msgUser").innerHTML = msgUser;
@@ -38,15 +23,13 @@ function Signup({ authMode, setAuthMode }) {
             document.getElementById("msgUser").innerHTML = msgUser;
             uservalidation = false;
         }
-
     }
 
-
+    //controle de l'input mail obligatoie
     const verifierEmail = (event) => {
         if (event.key === 'Enter') { document.getElementById('btn-inscrire').click() };
 
         email = document.getElementById("email").value;
-
         if (email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
             msgEmail = "<p style='color:green'>Format email valide</p>";
             document.getElementById("msgEmail").innerHTML = msgEmail;
@@ -60,14 +43,11 @@ function Signup({ authMode, setAuthMode }) {
 
 
 
-
+     //controle de l'input Mot de passe obligatoie : au moins 2 chiffres, une majuscule, une minuscule, un caractère spécial et 8 caractères
     const verifMotdePasse = (event) => {
         if (event.key === 'Enter') { document.getElementById('btn-inscrire').click() };
 
-
         str = document.getElementById("password").value;
-
-
         if (str.match(/(?=(.*\d){2})/g)) {
             msgChiffre = "<p style='color:green'>Au moins deux chiffres.</p>";
             document.getElementById("msgChiffre").innerHTML = msgChiffre;
@@ -114,9 +94,17 @@ function Signup({ authMode, setAuthMode }) {
             str.match(/[a-z]/g) &&
             str.match(/[^a-zA-Z\d]/g) &&
             str.length >= 8)
-            mdp = true;
+            mdpvalidation = true;
         else
-            mdp = false;
+        mdpvalidation = false;
+    }
+
+    //si les 3 champs input bien renseigné, function inscrireUser
+    const verifierInscription = (event) => {
+        console.log('mdp', mdpvalidation, "email", emailvalidation,'user',uservalidation);
+        if (mdpvalidation && emailvalidation && uservalidation) {
+            inscrireUser(document.getElementById('username').value, document.getElementById('email').value, document.getElementById('password').value);
+        }
     }
 
     return reponseApi !== 201 || reponseApi == null ? (

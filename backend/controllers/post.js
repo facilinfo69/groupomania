@@ -7,7 +7,6 @@ const { now } = require('mongoose');
 exports.getAllPost = (req, res, next) => {
     Post.find()
         .then(posts => {
-            console.log('toutsimplement',req.auth.admin);
             res.status(200).json({
                 posts:posts,
                 admin: req.auth.admin
@@ -27,44 +26,33 @@ exports.getOnePost = (req, res, next) => {
 //controller qui crée un post
 // { post: Objet/,
 //   image: File } recu par le frontend
-exports.createPost = (req, res, next) => {
-    console.log("create post backend");
-    // console.log(JSON.stringify(req.body.image));
-    //transforme en objet sauce
-
-
-    console.log('post', req.body.post);
-    console.log(req.file);
-    console.log('user',req.body.username);
+exports.createPost = (req, res, next) => {    
+    //transforme en objet Post
     const postObject = JSON.parse(req.body.post);
-    //supprime l'id car créé par mongodn automatiquement
+    //supprime l'id car créé par mongodb automatiquement
     delete postObject._id;
     //supprime le userId pour mettre le userID authentifié 
     delete postObject._userId;
     let fichier;
-    // crée une instance du modèle Post
+    //verifie présence fichier image
     if (req.file) {
-        
         fichier = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-
     } else {
         fichier = ' ';
     }
 
-    console.log('ajour sans image',fichier);
+    // crée une instance du modèle Post
     const post = new Post({
-        // 
         ...postObject,
         // initialise le userId avec le userId authentifié
         userId: req.auth.userId,
         // initialise la date de crétion du post
         datePost: Date.now(),
         // définit l url de l'image
-        // imageUrl: 'testimage',
-        
         imageUrl: fichier,
-        // initialise les tableaux like, dislike à vide
+        // initialise les tableaux like,
         usersLiked: [],
+        // initialise le nom de l'utilisateur
         userName: req.body.username
     });
     // enregistre le post dans la bdd
@@ -79,29 +67,23 @@ exports.createPost = (req, res, next) => {
 //deux possibilités : une modif avec un fichier image ou sans fichier image
 exports.modifyPost = (req, res, next) => {
     //on verifie la présence du fichier image
-    console.log('enlever image un',req.file);
     const postObject = req.file ? {
         // si fichier image,  transforme en objet post et récupère le chemin du fichier image sinon recupere les données modifiées du post
         ...JSON.parse(req.body.post),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...JSON.parse(req.body.post) };
-    console.log('enlever image',req.body.post);
     //supprime le userId pour mettre le userID authentifié 
     delete postObject._userId;
 
     Post.findOne({ _id: req.params.id })
         .then((post) => {
-
             //controle si l'utilisateur a le droit de modifier le fichier
             if (post.userId != req.auth.userId && req.auth.admin === false) {
                 res.status(401).json({ message: 'Not authorized' });
             } else {
-                console.log('eximage',post.imageUrl);
-
                 //met à jour le post
                 Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
                     .then(() => {
-                        console.log('aieieie',postObject.imageUrl);
                         //si image modifiée,supprime l'ancienne image du repertoire image
                         if (req.file || postObject.imageUrl === ' ' ) {
                             const filename = post.imageUrl.split('/images/')[1];

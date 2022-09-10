@@ -5,14 +5,14 @@ const jwt = require('jsonwebtoken');
 
 /** 
  * route qui permet de s'inscrire
-   {
+   {"username" : "philippe"
     "email": "sivignonp@free.fr",
     "password": "test"
+    "admin" : initialisé à false
  }*/
 exports.signup = (req, res, next) => {
-    console.log("signup");
     //verifier force du mot de passe
-     var schemaPassword = new passwordValidator();
+    var schemaPassword = new passwordValidator();
     //propriétés du mot de passe
     schemaPassword
         .is().min(8)                                    // Minimum 8 caractères
@@ -22,11 +22,10 @@ exports.signup = (req, res, next) => {
 
     //on peut ajouter une blacklist de mot de passe
     //.is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
-     if (schemaPassword.validate(req.body.password)) {
+    if (schemaPassword.validate(req.body.password)) {
         //hachage du mot de passe
         bcrypt.hash(req.body.password, 10)
             .then(hash => {
-                console.log('hash');
                 //ajour de l'utilisateur dans la base de données
                 const user = new User({
                     username: req.body.username,
@@ -40,15 +39,15 @@ exports.signup = (req, res, next) => {
                     .catch(error => res.status(400).json({ error }));
             })
             .catch(error => res.status(500).json({ error }));
-            
+
 
     } else {
         return res.status(401).json({ message: 'mot de passe non valide!' });
     }
-        
-   
-        
-        
+
+
+
+
 };
 
 
@@ -57,15 +56,8 @@ exports.signup = (req, res, next) => {
    {
     "email": "sivignonp@free.fr",
     "password": "test"
- }
- 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
- *
- */
+ } */
 exports.login = (req, res, next) => {
-    console.log("login test");
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
@@ -77,14 +69,16 @@ exports.login = (req, res, next) => {
                         return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
                     }
                     // réponse attendue :
-                    //{ userId: string,
+                    //{ admin : boolean
+                    //userId: string,
+                    //username
                     // token: string }
                     res.status(200).json({
                         admin: jwt.sign(
-                            { admin: user.admin},
+                            { admin: user.admin },
                             'RANDOM_TOKEN_SECRET',
                             { expiresIn: '24h' }
-                            ),
+                        ),
                         userId: user._id,
                         username: user.username,
                         // token web JSON signé
@@ -98,9 +92,4 @@ exports.login = (req, res, next) => {
                 .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
-};
-
-exports.admin = (req, res, next) => {
-    console.log("login admin");
-    console.log('ges',req.auth.admin);
 };

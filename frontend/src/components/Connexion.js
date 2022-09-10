@@ -56,7 +56,7 @@ export default function Connexion() {
                         <p>Vous avez un compte !</p>
                         <span onClick={changeAuthMode}>Se connecter</span>
                     </div>
-                    <Signup authMode={authMode} setAuthMode={setAuthMode} />
+                    <Signup setAuthMode={setAuthMode} />
                 </div>
             </div>
         )

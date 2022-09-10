@@ -32,6 +32,7 @@ function Login() {
             });
     }
 
+    //fetch post. envoi email + password - retour admin(true/false signé), userId, token pour l'authentification, username
     async function connecterUser(email, password) {
         const res = await fetch("http://localhost:3000/api/auth/login", {
             method: "POST",
@@ -43,7 +44,7 @@ function Login() {
         });
         return await res.json();
     }
-
+    
     return (
         <div className='gpm-signup'>
             <div className='gpm-label-input'>
