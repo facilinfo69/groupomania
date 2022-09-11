@@ -28,7 +28,7 @@ function Posts() {
       }
     })
       .then(function (res) {
-        if (res.ok) {return res.json();}
+        if (res.ok) { return res.json(); }
       })
       .then(function (value) {
         return value;
@@ -47,63 +47,72 @@ function Posts() {
       return new Date(b.datePost) - new Date(a.datePost)
     });
 
+    posts.forEach(post => {
+      let admin = 'false';
+      //verfier si il peut modifier et supprimer soit utilisateur a créé le post, soit administrateur
+      if (post.userId === localStorage.getItem('userid') || adminBd === true) {
+        admin = true;
+      } else {
+        admin = false;
+      }
+      post.admin = admin;
+
+      // voir si utilisateur a aimé le post ou non
+      let aime = false;
+      let myIndexLike = post.usersLiked.indexOf(localStorage.getItem('userid'));
+      //si utilisateur dans tableau des like initialisé aime à true qui permetra dans le composant Like de mettre le coeur en rouge 
+      if (myIndexLike !== -1) {
+        aime = true;
+      } else {
+        aime = false;
+      }
+      post.aime = aime;
+
+      //recupere le nombre de j'aime
+      let nbAime = post.usersLiked.length;
+      post.nbAime = nbAime;
+
+      //formater la date du post au format date de france
+      let dateDuPost = new Date(post.datePost);
+      let dateDuPostFormate = dateDuPost.toLocaleDateString('fr');
+      post.dateFormate = dateDuPostFormate;
+    });
+
     return (
-      <div className="gpm-posts">
-        {
-          //parcoure post par post
-          posts.map((post, index) => {
-            let admin = 'false';
-            //verfier si il peut modifier et supprimer soit utilisateur a créé le post, soit administrateur
-            if (post.userId === localStorage.getItem('userid') || adminBd === true) {
-              admin = true;
-            } else {
-              admin = false;
-            }
-            // voir si utilisateur a aimé le post ou non
-            let aime = false;
-            let myIndexLike = post.usersLiked.indexOf(localStorage.getItem('userid'));
-            //si utilisateur dans tableau des like initialisé aime à true qui permetra dans le composant Like de mettre le coeur en rouge 
-            if (myIndexLike !== -1) {
-              aime = true;
-            } else {
-              aime = false;
-            }
-            //recupere le nombre de j'aime
-            let nbAime = post.usersLiked.length;
 
-            //formater la date du post au format date de france
-            let dateDuPost = new Date(post.datePost);
-            let dateDuPostFormate = dateDuPost.toLocaleDateString('fr');
+      <>
+        <ul className="gpm-posts">
+          {posts.map((post, index) => (
 
-            return (
-              <>
-                <div key={post._id} className='gpm-card-post'>
-                  <div key={`post.titre-${index}`} className="gpm-card titre">{post.titre}</div>
+            <li key={post._id}>
+              <div className='gpm-card-post'>
+                <div className="gpm-card titre">{post.titre}</div>
 
-                  <div key={`post.contenu-${index}`} className="gpm-card contenu">
-                    {post.imageUrl === ' ' ? null : <img key={`post.image-${index}`} src={post.imageUrl} alt={post.titre} className="image" />}
-                    <pre className="contenuarea">{post.contenu}</pre>
-                  </div>
-
-                  <div key={`post.auteur-${index}`} className="gpm-card auteur">
-                    <span key={`post.postele-${index}`}>posté le {dateDuPostFormate}</span>
-                    <span key={`post.postepar-${index}`}>par {post.userName}</span>
-                  </div>
-
-                  <div key={`post.Like-${index}`} className='bouton'>
-                    {/* composant Like coeur pour aimer et bouton modifier/supprimer si admin ou utilisateur qui a créé le post */}
-                    <Like retour={retour} setRetour={setRetour} id={post._id} aimeicone={aime} nbAime={nbAime} admin={admin} />
-                  </div>
+                <div className="gpm-card contenu">
+                  {post.imageUrl === '' ? null : <img src={post.imageUrl} alt={post.titre} className="image" />}
+                  <pre className="contenuarea">{post.contenu}</pre>
                 </div>
-                <a className="bouton-ancre" href="#"><i className="fa-solid fa-circle-up"></i></a>
-              </>
-              // </Link>
-            )
-          })
-        }
-      </div>)
-  }
 
+                <div className="gpm-card auteur">
+                  <span>posté le {post.dateFormate}</span>
+                  <span >par {post.userName}</span>
+                </div>
+
+                <div className='bouton'>
+                  {/* composant Like coeur pour aimer et bouton modifier/supprimer si admin ou utilisateur qui a créé le post */}
+                  <Like retour={retour} setRetour={setRetour} id={post._id} aimeicone={post.aime} nbAime={post.nbAime} admin={post.admin} />
+                </div>
+
+              </div>
+              <a className="bouton-ancre" href="#"><i className="fa-solid fa-circle-up"></i></a>
+                  
+            </li>
+
+          ))}
+        </ul>
+      </>)
+  }
 }
+
 
 export default Posts

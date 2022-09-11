@@ -7,8 +7,11 @@ function CreatePost() {
   //recupere parametre si parametre mettre en mode modif sinon mode creation
   let params = useParams();
   let navigate = useNavigate();
+  let titre,contenu ;
   // initialise image à vide
   const [image, setImage] = useState({ preview: '', data: '' });
+  //inactive le bouton de validation
+  const [formValide, setFormValide] = useState(false);
 
   let [postModif, setPostModif] = useState(null);
 
@@ -22,6 +25,14 @@ function CreatePost() {
     navigate(path);
   }
 
+  //verifier que l'input titre et l'input contenu contient au moins un caractère pour activer le bouton de validation
+  const verifier = (event) => {
+    titre = document.getElementById("titre").value;
+    contenu = document.getElementById("contenu").value;
+    if (titre.length >= 1 && contenu.length>=1) { setFormValide(true)} else {setFormValide(false)}
+  }
+  
+
 
   const handleFileChange = (e) => {
     const img = {
@@ -29,16 +40,18 @@ function CreatePost() {
       data: e.target.files[0],
     }
     setImage(img);
-    if (postModif != null) {postModif.imageUrl = img.preview};
+    if (postModif != null) { postModif.imageUrl = img.preview };
+    verifier();
   }
 
   const supprImageClick = (e) => {
     const img = {
-      preview: ' ',
-      data: ' ',
+      preview: '',
+      data: '',
     }
     setImage(img);
-    if (postModif != null) {postModif.imageUrl = img.preview};
+    if (postModif != null) { postModif.imageUrl = img.preview };
+    verifier();
   }
 
   //recupere les données du post à modifier et met à jour la variable postModif (objet post)
@@ -64,7 +77,7 @@ function CreatePost() {
   }
 
 
-   // Mode modification post
+  // Mode modification post
   if (params.postId) {
     // besoin de récupérer les données du post pour la modification
     if (postModif === null) {
@@ -108,29 +121,29 @@ function CreatePost() {
           <div className='gpm-card-post'>
             <form id='formElem'>
               <div className='gpm-card'>
-                <input type="text" placeholder="Titre du post" id="titre" defaultValue={postModif.titre} ></input>
+                <input type="text" placeholder="Titre du post" id="titre" onKeyUp={verifier} defaultValue={postModif.titre} ></input>
               </div>
 
               <div className="image-upload">
-                {postModif.imageUrl !== ' ' ? <label className='file-label' htmlFor="file"><i className="fa-solid fa-image"></i><i className="fa-solid fa-arrows-rotate"></i></label>
+                {postModif.imageUrl !== '' ? <label className='file-label' htmlFor="file"><i className="fa-solid fa-image"></i><i className="fa-solid fa-arrows-rotate"></i></label>
                   : <label className='file-label' htmlFor="file"><i className="fa-solid fa-image">+</i></label>}
                 <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
 
                 <div className="image-suppr">
-                  {postModif.imageUrl !== ' ' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} ><i className="fa-solid fa-image"></i><i className="fa-solid fa-trash"></i></button>
+                  {postModif.imageUrl !== '' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} ><i className="fa-solid fa-image"></i><i className="fa-solid fa-trash"></i></button>
                     : null}
                 </div>
               </div>
 
-              {postModif.imageUrl !== ' ' ? <img src={postModif.imageUrl} alt='preview' className='image'></img> : null}
+              {postModif.imageUrl !== '' ? <img src={postModif.imageUrl} alt='preview' className='image'></img> : null}
 
               <div className='gpm-label-input ajout'>
-                <textarea placeholder="Contenu du post" id="contenu" defaultValue={postModif.contenu} ></textarea>
+                <textarea placeholder="Contenu du post" id="contenu" onKeyUp={verifier} defaultValue={postModif.contenu} ></textarea>
               </div>
             </form>
 
             <div className='bouton-create'>
-              <button onClick={() => modifierPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check"></i></button>
+              <button disabled={!formValide} id='btn-modif' onClick={() => modifierPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check"></i></button>
               <button onClick={() => annuler()} className='btn-annuler'><i className="fa-solid fa-circle-xmark"></i></button>
             </div>
           </div>
@@ -138,9 +151,10 @@ function CreatePost() {
       )
     }
   }
-  
+
   // Mode création post
   if (!params.postId) {
+    
     const ajouterPost = () => {
       //recupere les infos des inputs titre et contenu 
       postCreate.titre = document.getElementById('titre').value;
@@ -178,24 +192,29 @@ function CreatePost() {
         <div className='gpm-card-post'>
           <form id='formElem'>
             <div className='gpm-card'>
-              <input type="text" placeholder="Titre du post" id="titre"></input>
+              <input type="text" placeholder="Titre du post" id="titre" onKeyUp={verifier}></input>
             </div>
 
-            <div className="image-upload-create">
-              <label className='file-label' htmlFor="file">
-                <i className="fa-solid fa-image">+</i>
-              </label>
+            <div className="image-upload">
+              {image.preview !== '' ? <label className='file-label' htmlFor="file"><i className="fa-solid fa-image"></i><i className="fa-solid fa-arrows-rotate"></i></label>
+                : <label className='file-label' htmlFor="file"><i className="fa-solid fa-image">+</i></label>}
               <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
-              {image.preview ? <img src={image.preview} alt='preview' className='image'></img> : null}
+
+              <div className="image-suppr">
+                {image.preview !== '' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} ><i className="fa-solid fa-image"></i><i className="fa-solid fa-trash"></i></button>
+                  : null}
+              </div>
             </div>
+
+            {image.preview !== '' ? <img src={image.preview} alt='preview' className='image'></img> : null}
 
             <div className='gpm-label-input ajout'>
-              <textarea id="contenu" placeholder="Contenu du post"></textarea>
+              <textarea id="contenu" placeholder="Contenu du post" onKeyUp={verifier}></textarea>
             </div>
           </form>
 
           <div className='bouton-create'>
-            <button onClick={() => ajouterPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check"></i></button>
+            <button disabled={!formValide} id='btn-create' onClick={() => ajouterPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check"></i></button>
             <button onClick={() => annuler()} className='btn-annuler'><i className="fa-solid fa-circle-xmark"></i></button>
           </div>
         </div>

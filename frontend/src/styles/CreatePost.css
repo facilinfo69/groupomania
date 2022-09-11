@@ -110,3 +110,11 @@ textarea{
     font-size: 16px;
     font-family: 'Lato', sans-serif;
 }
+
+#btn-create:disabled{
+    color:#b9bac2;
+}
+
+#btn-modif:disabled{
+    color:#b9bac2;
+}

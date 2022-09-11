@@ -49,17 +49,17 @@ ul {
     padding: 0px;
 }
 
-li {
+.gpm-banner li {
     padding: 20px;
     display: flex;
     align-items: center;
 }
 
-li:last-child i{
+.gpm-banner li:last-child i{
   padding-left: 60px;
 }
 
-li span {
+.gpm-banner li span {
   color: #4E5166;
   padding-left: 10px;
   font-size: 15px;

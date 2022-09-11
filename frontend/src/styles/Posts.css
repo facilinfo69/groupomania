@@ -15,8 +15,20 @@
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.8);
 }
 
-.gpm-card-post:first-child {
+.gpm-posts.ajout .gpm-card-post {
     margin-top: 120px;
+}
+
+.gpm-posts.modif .gpm-card-post {
+    margin-top: 120px;
+}
+
+.gpm-posts li:first-child {
+    margin-top: 120px;
+}
+
+.gpm-posts li {
+    padding: 0px;
 }
 
 
@@ -65,7 +77,7 @@ pre.contenuarea {
 
 .image {
     width: 100%;
-    max-height: 600px;
+    max-height: 500px;
     object-fit: cover;
     object-position: center;
 }
