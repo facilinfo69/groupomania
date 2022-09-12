@@ -1,10 +1,9 @@
-.gpm-posts .ajout{
-    height: 100%;
-}
 .gpm-card-post{
     font-family: 'Lato', sans-serif;
     background-color: white;
 }
+
+
 
 .gpm-card input {
     border: none;

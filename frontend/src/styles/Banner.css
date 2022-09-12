@@ -1,61 +1,63 @@
-a, a:hover {
-    color: #4E5166;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color: #FD2D01;
-  }
-
-  a:active, a:focus {
-    color: #FD2D01;
-  }
-
-  i {
-    font-size: 40px;
-  }
-
-
-.gpm-banner{
-    width:100%;
-    display: flex;
-    justify-content: space-around;
-    font-size: 20px;
-    border-bottom: 2px solid black;
-    padding: 15px 20px;
-    background-color: #fff;
-    height: 60px;
+a,
+a:hover {
+  color: #4E5166;
+  text-decoration: none;
 }
 
-.gpm-logo{
-    display: flex;
-    align-items: center;
-    width: 15%;
-    color: #4E5166;
-    object-fit:scale-down;
+a:hover {
+  color: #FD2D01;
+}
+
+a:active,
+a:focus {
+  color: #FD2D01;
+}
+
+i {
+  font-size: 40px;
+}
+
+
+.gpm-banner {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  font-size: 20px;
+  border-bottom: 2px solid black;
+  padding: 15px 20px;
+  background-color: #fff;
+  height: 60px;
+}
+
+.gpm-logo {
+  display: flex;
+  align-items: center;
+  width: 15%;
+  color: #4E5166;
+  object-fit: scale-down;
 }
 
 nav {
-    display: flex;
-    justify-content: center;
-    padding-right: 20px;
+  display: flex;
+  justify-content: center;
+  padding-right: 20px;
 }
 
 ul {
-    list-style-type: none;
-    align-items: center;
-    display: flex;
-    margin: 0px;
-    padding: 0px;
+  list-style-type: none;
+  align-items: center;
+  display: flex;
+  margin: 0px;
+  padding: 0px;
 }
 
 .gpm-banner li {
-    padding: 20px;
-    display: flex;
-    align-items: center;
+  padding: 20px;
+  display: flex;
+  align-items: center;
 }
 
-.gpm-banner li:last-child i{
+.gpm-banner li:last-child i {
   padding-left: 60px;
 }
 
@@ -68,4 +70,40 @@ ul {
 
 #banner {
   position: fixed;
+}
+
+
+/*responsive pour écran inférieur à 480px*/
+@media screen and (max-width: 500px) {
+  .gpm-logo {
+    display: none;
+    height: 30px;
+    font-size: 10px;
+    padding: 15px 10px;
+  }
+
+  i {
+    font-size: 20px;
+  }
+
+  nav {
+    padding-right: 10px;
+  }
+
+  .gpm-banner li {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .gpm-banner {
+
+    font-size: 20px;
+
+    padding: 10px 10px;
+    background-color: #fff;
+    height: 30px;
+  }
+
+
 }
