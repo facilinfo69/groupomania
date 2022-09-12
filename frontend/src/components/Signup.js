@@ -7,12 +7,12 @@ function Signup({ setAuthMode }) {
     //variables pour controler les inputs
     let str, email, user, msgUser, msgEmail, msgChiffre, msgMaj, msgMin, msgCarSpe, msgLg;
     let mdpvalidation, emailvalidation, uservalidation;
- 
+
     //controle de l'input username obligatoie et plus de 3 caractères
     const verifierUsername = (event) => {
         //simule le click validation
         if (event.key === 'Enter') { document.getElementById('btn-inscrire').click() };
-        
+
         user = document.getElementById("username").value;
         if (user.length >= 3) {
             msgUser = "";
@@ -43,7 +43,7 @@ function Signup({ setAuthMode }) {
 
 
 
-     //controle de l'input Mot de passe obligatoie : au moins 2 chiffres, une majuscule, une minuscule, un caractère spécial et 8 caractères
+    //controle de l'input Mot de passe obligatoie : au moins 2 chiffres, une majuscule, une minuscule, un caractère spécial et 8 caractères
     const verifMotdePasse = (event) => {
         if (event.key === 'Enter') { document.getElementById('btn-inscrire').click() };
 
@@ -96,7 +96,7 @@ function Signup({ setAuthMode }) {
             str.length >= 8)
             mdpvalidation = true;
         else
-        mdpvalidation = false;
+            mdpvalidation = false;
     }
 
     //si les 3 champs input bien renseigné, function inscrireUser
@@ -104,6 +104,26 @@ function Signup({ setAuthMode }) {
         if (mdpvalidation && emailvalidation && uservalidation) {
             inscrireUser(document.getElementById('username').value, document.getElementById('email').value, document.getElementById('password').value);
         }
+    }
+
+    function inscrireUser(username, email, password) {
+        return fetch("http://localhost:3000/api/auth/signup", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, email, password })
+        })
+            .then(function (res) {
+                if (res.ok) {
+                    setreponseApi(res.status);
+                    setAuthMode('signupok');
+                    return res.json();
+                } else {
+                    setreponseApi(res.status);
+                }
+            })
     }
 
     return reponseApi !== 201 || reponseApi == null ? (
@@ -141,32 +161,8 @@ function Signup({ setAuthMode }) {
             {reponseApi != null ? <div className='gpm-message'>Vérifiez les données saisies !</div> : null}
             <button id='btn-inscrire' onClick={verifierInscription}>S'inscrire</button>
         </div>) : null
-    // ) : (
 
-    //     // <div>{setAuthMode('signinok')}
-    //     // </div>
-    // )
 
-    function inscrireUser(username, email, password) {
-        console.log(username, email, password);
-        return fetch("http://localhost:3000/api/auth/signup", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, email, password })
-        })
-            .then(function (res) {
-                if (res.ok) {
-                    setreponseApi(res.status);
-                    setAuthMode('signupok');
-                    return res.json();
-                } else {
-                    setreponseApi(res.status);
-                }
-            })
-    }
 }
 
 

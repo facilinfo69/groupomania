@@ -14,7 +14,7 @@ const helmet = require('helmet');
 require('dotenv').config({ path: '.env.local' });
 require('dotenv').config();
 
-// connexion à la base de données mongoDb (_USER, _PASSWORD dans le fichier .env)
+// connexion à la base de données mongoDb (_USER, _PASSWORD dans le fichier .env.local en test)
 mongoose.connect(`mongodb+srv://${process.env._USER}:${process.env._PASSWORD}@groupomania.hm6xdhl.mongodb.net/?retryWrites=true&w=majority`,
 {
         useNewUrlParser: true,
@@ -26,7 +26,7 @@ mongoose.connect(`mongodb+srv://${process.env._USER}:${process.env._PASSWORD}@gr
 
 const app = express();
 
-// app.use(helmet());
+app.use(helmet());
 
 //réponse du serveur
 //recupere le corps JSON
