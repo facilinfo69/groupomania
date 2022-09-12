@@ -1,3 +1,6 @@
+Projet Test Groupomania - openclassrooms
+
+
 Dossier Central
 Créez un dossier nommé groupomania. 
 Cloner le projet suivant :  https://github.com/facilinfo69/groupomania.git
@@ -6,10 +9,12 @@ Dossier Backend
 Installation
 •	Installer Node.js sur votre machine
 •	Cd backend :
-	o	Installer les packages nécessaires :npm install
+	o	Installer les packages nécessaires :npm install 
+		(express, multer, mongoose, mongoose-unique-validator, bcrypt, jsonwebtoken, dotenv, helmet, password-validator)
 
-Configuration de la base de données :
-Dans le fichier .env, ajoutez vos variables d'environnement comme ci-dessous :
+Configuration de la base de données MongoDb Atlas :
+Dupliquer le fichier .env en le renommant .env.local
+Dans le fichier .env.local, ajoutez vos variables d'environnement comme ci-dessous :
 _USER="PhilippeS"
 _PASSWORD="PhilTest"
 
