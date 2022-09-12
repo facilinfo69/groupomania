@@ -125,12 +125,12 @@ function CreatePost() {
               </div>
 
               <div className="image-upload">
-                {postModif.imageUrl !== '' ? <label className='file-label' htmlFor="file"><i className="fa-solid fa-image"></i><i className="fa-solid fa-arrows-rotate"></i></label>
-                  : <label className='file-label' htmlFor="file"><i className="fa-solid fa-image">+</i></label>}
+                {postModif.imageUrl !== '' ? <label className='file-label' htmlFor="file"><i className="fa-solid fa-image" title="changer l'image"></i><i className="fa-solid fa-arrows-rotate" title="changer l'image"></i></label>
+                  : <label className='file-label' htmlFor="file"><i className="fa-solid fa-image" title="ajouter une image">+</i></label>}
                 <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
 
                 <div className="image-suppr">
-                  {postModif.imageUrl !== '' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} ><i className="fa-solid fa-image"></i><i className="fa-solid fa-trash"></i></button>
+                  {postModif.imageUrl !== '' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} ><i className="fa-solid fa-image" title="supprimer l'image"></i><i className="fa-solid fa-trash" title="supprimer l'image"></i></button>
                     : null}
                 </div>
               </div>
@@ -143,8 +143,8 @@ function CreatePost() {
             </form>
 
             <div className='bouton-create'>
-              <button disabled={!formValide} id='btn-modif' onClick={() => modifierPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check"></i></button>
-              <button onClick={() => annuler()} className='btn-annuler'><i className="fa-solid fa-circle-xmark"></i></button>
+              <button disabled={!formValide} id='btn-modif' onClick={() => modifierPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check" title="valider"></i></button>
+              <button onClick={() => annuler()} className='btn-annuler'><i className="fa-solid fa-circle-xmark" title="annuler"></i></button>
             </div>
           </div>
         </div>
@@ -154,6 +154,7 @@ function CreatePost() {
 
   // Mode création post
   if (!params.postId) {
+  
     
     const ajouterPost = () => {
       //recupere les infos des inputs titre et contenu 
@@ -192,16 +193,16 @@ function CreatePost() {
         <div className='gpm-card-post'>
           <form id='formElem'>
             <div className='gpm-card'>
-              <input type="text" placeholder="Titre du post" id="titre" onKeyUp={verifier}></input>
+              <input type="text" placeholder="Titre du post" id="titre" onKeyUp={verifier} defaultValue=''></input>
             </div>
 
             <div className="image-upload">
-              {image.preview !== '' ? <label className='file-label' htmlFor="file"><i className="fa-solid fa-image"></i><i className="fa-solid fa-arrows-rotate"></i></label>
-                : <label className='file-label' htmlFor="file"><i className="fa-solid fa-image">+</i></label>}
+              {image.preview !== '' ? <label className='file-label' htmlFor="file"><i className="fa-solid fa-image" title="changer l'image"></i><i className="fa-solid fa-arrows-rotate" title="changer l'image"></i></label>
+                : <label className='file-label' htmlFor="file"><i className="fa-solid fa-image" title="ajouter une image">+</i></label>}
               <input className='file-input' type="file" id="file" name='file' onChange={handleFileChange}></input>
 
               <div className="image-suppr">
-                {image.preview !== '' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} ><i className="fa-solid fa-image"></i><i className="fa-solid fa-trash"></i></button>
+                {image.preview !== '' ? <button className='file-label' id="filesuppr" onClick={supprImageClick} ><i className="fa-solid fa-image" title="supprimer l'image"></i><i className="fa-solid fa-trash" title="supprimer l'image"></i></button>
                   : null}
               </div>
             </div>
@@ -209,13 +210,13 @@ function CreatePost() {
             {image.preview !== '' ? <img src={image.preview} alt='preview' className='image'></img> : null}
 
             <div className='gpm-label-input ajout'>
-              <textarea id="contenu" placeholder="Contenu du post" onKeyUp={verifier}></textarea>
+              <textarea id="contenu" placeholder="Contenu du post" onKeyUp={verifier} defaultValue=''></textarea>
             </div>
           </form>
 
           <div className='bouton-create'>
-            <button disabled={!formValide} id='btn-create' onClick={() => ajouterPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check"></i></button>
-            <button onClick={() => annuler()} className='btn-annuler'><i className="fa-solid fa-circle-xmark"></i></button>
+            <button disabled={!formValide} id='btn-create' onClick={() => ajouterPost()} className='btn-ajouter'><i className="fa-solid fa-circle-check" title="valider"></i></button>
+            <button onClick={() => annuler()} className='btn-annuler'><i className="fa-solid fa-circle-xmark" title="annuler"></i></button>
           </div>
         </div>
       </div>

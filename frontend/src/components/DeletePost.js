@@ -15,7 +15,7 @@ function DeletePost() {
         let path = `../all`;
         navigate(path);
       });
-  }, []);
+  }, [supprimerPost]);
 
   async function supprimerPost() {
     const res = await fetch(`http://localhost:3000/api/post/${params.postId}`, {

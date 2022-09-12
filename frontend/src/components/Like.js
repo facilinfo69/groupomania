@@ -45,8 +45,8 @@ function Like(props) {
                     : <button className='bouton-coeur' onClick={() => likePost()}><i className="fa-regular fa-heart" ></i><span>{nbAime}</span> </button>}
             </div>
             <div className='bouton-action'>
-                {admin ? <Link className='lien' to={`../modify-post/${id}`}><i className="fa-regular fa-pen-to-square"></i></Link> : null}
-                {admin ? <Link className='lien' to={`../delete-post/${id}`}><i className="fa-solid fa-trash-can"></i></Link> : null}
+                {admin ? <Link className='lien' to={`../modify-post/${id}`}><i className="fa-regular fa-pen-to-square" title="modifier le post"></i></Link> : null}
+                {admin ? <Link className='lien' to={`../delete-post/${id}`}><i className="fa-solid fa-trash-can" title="supprimer le post"></i></Link> : null}
             </div>
         </>
     )

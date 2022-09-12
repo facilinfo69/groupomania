@@ -101,7 +101,6 @@ function Signup({ setAuthMode }) {
 
     //si les 3 champs input bien renseigné, function inscrireUser
     const verifierInscription = (event) => {
-        console.log('mdp', mdpvalidation, "email", emailvalidation,'user',uservalidation);
         if (mdpvalidation && emailvalidation && uservalidation) {
             inscrireUser(document.getElementById('username').value, document.getElementById('email').value, document.getElementById('password').value);
         }
