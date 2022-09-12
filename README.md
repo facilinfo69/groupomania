@@ -24,6 +24,6 @@ Ouvrez un terminal dans le dossier groupomania/frontend
 •	Installer react : npm install 
 •	Lancer la commande npm start
 
-Le serveur est accessible en local via le port 3200 : http://localhost :3200/
+Le serveur est accessible en local via le port 3200 : http://localhost:3200/
 
 
