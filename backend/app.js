@@ -32,6 +32,8 @@ app.use(helmet());
 //recupere le corps JSON
 app.use(express.json());
 
+app.use(express.static('../frontend/build'));
+
 
 
 //implémentation CORS communication entre les deux serveurs
@@ -50,5 +52,9 @@ app.use('/api/post', postRoutes);
 
 //gérer la ressource images de manière statique 
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.get('/*',(_, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
+})
 
 module.exports = app;
